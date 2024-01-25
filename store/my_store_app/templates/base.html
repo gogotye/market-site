@@ -1,0 +1,73 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+{% load static %}
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+<head>
+    <title>Megano</title>
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+    <!--if lt IE 8
+  p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+  -->
+    <header>
+        {% include 'includes/head_line.html' %}
+        {% include 'includes/top-menu-and-logo.html' %}
+        {% include 'includes/search-line.html' %}
+    </header>
+
+
+    {% block content %}{% endblock content %}
+    <div id="order" class="my_modal">
+        <div class="my_modal-dialog">
+            <div class="my_modal-content">
+                <div class="my_modal-header">
+                    <a href="{{ request.path }}" title="Закрыть модальное окно" class="close">×</a>
+                </div>
+                <div class="my_modal-body">
+                    <p align="center" style="font-size: 17px">Ждём подтверждения оплаты от платёжной системы.
+                        <p align="center">Проверь готовность можно
+                            <a href="{% url 'private_office:office' %}">здесь</a>
+                        </p>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/footer.html' %}
+    <!--+Middle-->
+    <!--    +div.-top-->
+    <!--        +breadcrumbs('Главная','Портфолио')-->
+    <!--    +Article('portfolio')-->
+    <!---->
+    {% include 'includes/bottom_scripts.html' %}
+</body>
+
+</html>

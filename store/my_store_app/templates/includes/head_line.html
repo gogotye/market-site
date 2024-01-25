@@ -1,0 +1,81 @@
+{% load static %}
+
+<div class="ControlPanel">
+    <div class="wrap">
+        <div class="row ControlPanel-row">
+            <div class="row-block">
+                <div class="row ControlPanel-rowSplit">
+                    <div class="row-block hide_700">
+
+
+                                <!--           Ссылки на соц-сети            -->
+                        <ul class="menu menu_img menu_smallImg ControlPanel-menu">
+                            <li class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <img src="{% static 'assets/img/icons/socialHeader/tw.svg' %}" alt="tw.svg"/>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <img src="{% static 'assets/img/icons/socialHeader/in.svg' %}" alt="in.svg"/>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <img src="{% static 'assets/img/icons/socialHeader/pt.svg' %}" alt="pt.svg"/>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <img src="{% static 'assets/img/icons/socialHeader/mail.svg' %}" alt="mail.svg"/>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+            <nav class="row-block">
+                <div class="row ControlPanel-rowSplit">
+                    {% if user.is_authenticated %}
+                        <div class="row-block">
+                            <a class="ControlPanel-title" href="{% url 'private_office:office' %}">Личный кабинет</a>
+                            <a class="ControlPanel-title" href="{% url 'user_app:logout' %}">Выход</a>
+                            <p class="ControlPanel-title">{{ user.username }}</p>
+                        </div>
+                    {% else %}
+                        <div class="row-block">
+                            <a class="ControlPanel-title" href="{% url 'user_app:login' %}">Вход</a>
+                            <a class="ControlPanel-title" href="#modal_open_register">Регистрация</a>
+                        </div>
+                        <div id="modal_open_register" class="my_modal">
+                            <div class="my_modal-dialog">
+                                <div class="my_modal-content">
+                                    <div class="my_modal-header">
+                                        <p class="my_modal-title" align="center">Регистрация</p>
+                                        <a href="#" title="Закрыть модальное окно" class="close">×</a>
+                                    </div>
+                                    <div class="my_modal-body">
+                                        <a style="float: left" class="ControlPanel-title" href="{% url 'user_app:register_customer' %}">Покупатель</a>
+                                        <a style="float: right; margin: 0px; margin-right:30px;" class="ControlPanel-title" href="{% url 'user_app:register_seller' %}">Продавец</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!--+div.menuModal#navigate
+//    +menu([
+//        ['Главная','index.html'],
+//        ['Портфолио','index.html'],
+//        ['Мои проекты','index.html'],
+//        ['Контакты','index.html']
+//    ], page === 'article'? 'Портфолио': 'Главная')._main
+
+block
+-->
+</div>

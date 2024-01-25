@@ -1,0 +1,59 @@
+{% load static %}
+
+
+{% for obj in basket %}
+    <div class="form Cart">
+    <div class="Cart-product">
+        <div class="Cart-block Cart-block_row">
+            <div class="Cart-block Cart-block_pict">
+                {% if obj.product.product.title_picture %}
+                <a class="Cart-pict" href="{{ obj.product.product.get_absolute_url }}">
+                    <img class="Cart-img" src="{{ obj.product.product.title_picture.url }}" alt="card.jpg" />
+                </a>
+                {% endif %}
+            </div>
+            <div class="Cart-block Cart-block_info">
+                <a class="Cart-title" href="{{ obj.product.product.get_absolute_url }}">{{ obj.product.product.title }}</a>
+                <div class="Cart-desc">{{ obj.product.product.description }}</div>
+            </div>
+            <div class="Cart-block Cart-block_price">
+                <div class="Cart-price">{{ obj.total }}$</div>
+            </div>
+        </div>
+        <div class="Cart-block Cart-block_row">
+            <div class="Cart-block Cart-block_seller">
+                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+                {{ obj.product.shop.shop_info.name }}
+            </div>
+            <div class="Cart-block Cart-block_amount">
+                <div class="Cart-amount">
+                    <div class="Amount">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="remove" value="{{ obj.pk }}">
+                            <button type="submit" class="my-button">
+                                <span class="big-span">-</span>
+                            </button>
+                        </form>
+                        <div class="Amount-input form-input">{{ obj.quantity }}</div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="add" value="{{ obj.pk }}">
+                            <button class="my-button my-b-left" type="submit">
+                                <span class="small-span">+</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="Cart-block Cart-block_delete">
+                <form method="post">
+                    <input type="hidden" name="delete_cart_row" value="{{ obj.pk }}">
+                    {% csrf_token %}
+                    <input class="Cart-delete" type="image" src="{% static 'assets/img/icons/card/delete.svg' %}" alt="delete.svg">
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endfor %}

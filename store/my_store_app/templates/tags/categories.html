@@ -1,0 +1,34 @@
+{% load static %}
+
+
+<div class="Header-categories">
+    <div class="CategoriesButton">
+        <div class="CategoriesButton-title">
+            <div class="CategoriesButton-icon">
+                <img src="{% static 'assets/img/icons/allDep.svg' %}" alt="allDep.svg"/>
+            </div>
+            <span class="CategoriesButton-text">Все категории</span>
+            <div class="CategoriesButton-arrow"></div>
+        </div>
+        <div class="CategoriesButton-content">
+            <div class="CategoriesButton-link">
+                <a href="{% url 'catalog:catalog' %}" style="padding: 25px 30px">
+                    <span class="CategoriesButton-text" style="margin: 0 auto">БЕЗ КАТЕГОРИИ</span>
+                </a>
+            </div>
+            {% for cat in categories %}
+            <div class="CategoriesButton-link">
+                <a href="{% url 'catalog:catalog' %}?category={{ cat.slug }}">
+                    {% if cat.image %}
+                        <div class="CategoriesButton-icon">
+                            <img height="23" width="19" src="{{ cat.image.url }}" alt=""/>
+                        </div>
+                    {% endif %}
+                    <span class="CategoriesButton-text">{{ cat }}</span>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>

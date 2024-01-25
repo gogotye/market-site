@@ -1,0 +1,84 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+<head>
+    <title>Megano</title>
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+<!--if lt IE 8
+p.error-browser
+  | Ваш браузер&nbsp;
+  em устарел!&nbsp;
+  a(href="http://browsehappy.com/") Выберите новую версию
+      +s
+      | браузера здесь&nbsp;
+  | для правильного отображения сайта.
+-->
+<header class="Header">
+    {% include 'includes/head_line.html' %}
+    {% include 'includes/top-menu-and-logo.html' %}
+    {% include 'includes/search-line.html' %}
+</header>
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+        <div class="wrap">
+            <div class="Middle-header">
+                <h1 class="Middle-title">Оплата</h1>
+                <ul class="breadcrumbs Middle-breadcrumbs">
+                    <li class="breadcrumbs-item"><a href="index.html">home</a></li>
+                    <li class="breadcrumbs-item breadcrumbs-item_current"><span>Оплата</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="Section">
+        <div class="wrap">
+            <form class="form Payment" method="post">
+                <div class="Payment-card">
+                    <div class="form-group">
+                        <label class="form-label">Номер счета</label>
+                        <input class="form-input Payment-bill" id="numero1" name="numero1" type="text"
+                               placeholder="9999 9999" data-mask="9999 9999" data-validate="require pay"/>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn_success Payment-generate" href="#">Сгенирировать случайный счет</a>
+                    </div>
+                </div>
+                <div class="Payment-pay">
+                    {% csrf_token %}
+                    <button class="btn btn_primary" type="submit">Оплатить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+<!--+Middle-->
+<!--    +div.-top-->
+<!--        +breadcrumbs('Главная','Портфолио')-->
+<!--    +Article('portfolio')-->
+<!---->
+{% include 'includes/bottom_scripts.html' %}
+</body>
+</html>

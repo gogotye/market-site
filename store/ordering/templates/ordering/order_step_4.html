@@ -1,0 +1,167 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+{% load my_tags %}
+
+<head>
+    <title>Megano</title>
+    <style>
+        .full {
+            width: 100%;
+        }
+    </style>
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+<!--if lt IE 8
+p.error-browser
+  | Ваш браузер&nbsp;
+  em устарел!&nbsp;
+  a(href="http://browsehappy.com/") Выберите новую версию
+      +s
+      | браузера здесь&nbsp;
+  | для правильного отображения сайта.
+-->
+<header class="Header">
+    {% include 'includes/head_line.html' %}
+    {% include 'includes/top-menu-and-logo.html' %}
+    {% include 'includes/search-line.html' %}
+</header>
+<div class="Middle Middle_top">
+    <div class="Section Section_column Section_columnRight Section_columnWide Order">
+        <div class="wrap">
+
+            {% ordering_menu pointer=step %}
+
+            <div class="Section-content">
+                <div>
+                    <header class="Section-header Section-header_sm">
+                        <h2 class="Section-title">Шаг 4. Подтверждение заказа</h2>
+                    </header>
+                    <!--+div.Order.-confirmation-->
+                    <div class="Order-infoBlock">
+                        <div class="Order-personal">
+                            <div class="row">
+                                <div class="row-block">
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">ФИО:</div>
+                                        <div class="Order-infoContent">{{ order.name }} {{ order.family_name }} {% firstof order.surname '' %}</div>
+                                    </div>
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">Телефон:</div>
+                                        <div class="Order-infoContent">+7-{{ order.phone }}</div>
+                                    </div>
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">E-mail:</div>
+                                        <div class="Order-infoContent">{{ order.email }}</div>
+                                    </div>
+                                </div>
+                                <div class="row-block">
+                                    <div class="Order-info Order-info_delivery">
+                                        <div class="Order-infoType">Тип доставки:</div>
+                                        <div class="Order-infoContent">{{ order.get_delivery_method_display }}{% if order.delivery_price %}(+{{ order.delivery_price }}р){% endif %}</div>
+                                    </div>
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">Город:</div>
+                                        <div class="Order-infoContent">{{ order.city }}</div>
+                                    </div>
+                                    <div class="Order-info">
+                                        <div class="Order-infoType">Адрес:</div>
+                                        <div class="Order-infoContent">{{ order.address }}</div>
+                                    </div>
+                                    <div class="Order-info Order-info_pay">
+                                        <div class="Order-infoType">Оплата:</div>
+                                        <div class="Order-infoContent">{{ order.get_pay_method_display }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="Cart Cart_order">
+                            {% for cart in basket %}
+                            <div class="Cart-product">
+                                <div class="Cart-block Cart-block_row">
+                                    <div class="Cart-block Cart-block_pict">
+                                        {% if cart.product.product.title_picture %}
+                                            <a class="Cart-pict" href="{{ cart.product.product.get_absolute_url }}">
+                                                <img class="Cart-img" src="{{ cart.product.product.title_picture.url }}" alt="card.jpg"/>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="Cart-block Cart-block_info">
+                                        <a class="Cart-title" href="{{ cart.product.product.get_absolute_url }}">{{ cart.product.product.title }}</a>
+                                        <div class="Cart-desc">{{ cart.product.product.description }}</div>
+                                    </div>
+                                    <div class="Cart-block Cart-block_price">
+                                        <div class="Cart-price">{{ cart.product.price }}$</div>
+                                    </div>
+                                </div>
+                                <div class="Cart-block Cart-block_row">
+                                    <div class="Cart-block Cart-block_amount">{{ cart.quantity }} шт.</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="Cart-total">
+                                <div class="Cart-block Cart-block_total">
+                                    <strong class="Cart-title">Итого:</strong>
+                                    <span class="Cart-price">{{ order.total_price }}$</span>
+                                </div>
+                                <form method="post">
+                                    <div class="Cart-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="payment">
+                                        <button class="btn btn_primary btn_lg" type="submit">Оплатить</button>
+                                    </div>
+                                </form>
+                            </div>
+                            {% if order.comment %}
+                            <p align="center">
+                                <u style="font-size: 25px; color: #1f2126;">Пожелания к заказу</u><br>
+                                {{ order.comment }}
+                            </p>
+                            {% endif %}
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ comment_form.as_p }}
+                                <div align="right">
+                                    <button type="submit" class="btn btn_muted">
+                                        Отправить
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+<!--+Middle-->
+<!--    +div.-top-->
+<!--        +breadcrumbs('Главная','Портфолио')-->
+<!--    +Article('portfolio')-->
+<!---->
+{% include 'includes/bottom_scripts.html' %}
+</body>
+
+</html>

@@ -1,0 +1,172 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+{% load static %}
+{% load my_tags %}
+{% load custom_filters %}
+
+<head>
+    <title>Megano</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+<!--if lt IE 8
+p.error-browser
+  | Ваш браузер&nbsp;
+  em устарел!&nbsp;
+  a(href="http://browsehappy.com/") Выберите новую версию
+      +s
+      | браузера здесь&nbsp;
+  | для правильного отображения сайта.
+-->
+{% include 'includes/head_line.html' %}
+{% include 'includes/top-menu-and-logo.html' %}
+{% include 'includes/search-line.html' %}
+<div class="Middle Middle_top">
+    <div class="Section Section_column Section_columnLeft">
+        <div class="wrap">
+            <div class="Section-column">
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Фильтр</strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <form class="form" method="post">
+                            <div class="form-group">
+                                <div class="range Section-columnRange">
+                                    <input class="range-line" id="price" name="price" type="text" data-type="double"
+                                           data-min="5" data-max="1000"
+                                           data-from="{% if session.filtered.min %}{{ session.filtered.min }}{% else %}5{% endif %}"
+                                           data-to="{% if session.filtered.max %}{{ session.filtered.max }}{% else %}1000{% endif %}"/>
+                                    <div class="range-price">Цена:&#32;
+                                        <div class="rangePrice"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ name_form.title }}
+                            </div>
+                            <div class="form-group">
+                                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+                                <button class="btn btn_square btn_dark btn_narrow" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                                        aria-expanded="false" aria-controls="collapseExample">
+                                    Shops  {{ shop_list|length }}<div class="CategoriesButton-arrow"></div>
+                                </button>
+                                <div class="collapse" id="collapseExample" style="margin-top: 10px">
+                                    <table style="width: 100%; table-layout: fixed;">
+                                        <tbody>
+                                        {% for elem in shop_list %}
+                                        <tr>
+                                            <td style="word-wrap: break-word;" >
+                                                <label class="toggle">
+                                                    <input type="checkbox" value="{{ elem.shop_info.name }}" name="selected_shops">
+                                                    <span class="toggle-box"></span>
+                                                    <span class="toggle-text">{{ elem.shop_info.name }}</span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="toggle">
+                                    <input type="checkbox" name="in_stock"/><span class="toggle-box"></span>
+                                    <span class="toggle-text">Только товары в наличии</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="toggle">
+                                    <input type="checkbox" name="free"/><span class="toggle-box"></span>
+                                    <span class="toggle-text">С бесплатной доставкой</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <div class="buttons">
+                                    {% csrf_token %}
+                                    <button class="btn btn_square btn_dark btn_narrow" type="submit">Фильтр</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        {% if 'filtered' in session %}
+                            <form method="post" style="margin-top: 5px;">
+                                {% csrf_token %}
+                                <input type="hidden" name="clear" value="clear">
+                                <button class="btn btn_square btn_dark btn_narrow" type="submit">Сброс фильтра</button>
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">Популярные тэги</strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="buttons">
+                            <a class="btn btn_default btn_sm" href="#">Видео</a>
+                            <a class="btn btn_default btn_sm" href="#">Разработка</a>
+                            <a class="btn btn_default btn_sm" href="#">Игры</a>
+                            <a class="btn btn_default btn_sm" href="#">Asus</a>
+                            <a class="btn btn_default btn_sm" href="#">Разработка</a>
+                            <a class="btn btn_default btn_sm" href="#">Видео</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Section-content">
+
+                <!--        Тэг для отображения кнопок сортировки        -->
+                {% sort_bars request=request %}
+
+                <!--        Тэг для отображения списка продуктов        -->
+                {% cards products %}
+
+                <!--        Тэг для отображения пагинации        -->
+                {% pagination page_obj=page_obj request=request paginator=paginator %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'includes/footer.html' %}
+<!--+Middle-->
+<!--    +div.-top-->
+<!--        +breadcrumbs('Главная','Портфолио')-->
+<!--    +Article('portfolio')-->
+<!---->
+{% include 'includes/bottom_scripts.html' %}
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+</script>
+</body>
+
+</html>

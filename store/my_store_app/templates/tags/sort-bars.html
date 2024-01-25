@@ -1,0 +1,21 @@
+{% load custom_filters %}
+
+
+<div class="Sort">
+    <div class="Sort-title">Сортировать по:</div>
+    <div class="Sort-variants">
+        {% with params=request.GET|dictslice:"page, category" %}
+
+        {% for name, eng_name in sort_category %}
+        {% if request.GET.sort_by == eng_name %}
+            <a class="Sort-sortBy {% if request.session.sorted == 'acs' %}Sort-sortBy_inc{% else %}Sort-sortBy_dec{% endif %}"
+               href="{% url 'catalog:catalog' %}?sort_by={{ eng_name }}&change_order=1{% for key, val in params.items %}&{{ key }}={{ val }}{% endfor %}">{{ name }}</a>
+        {% else %}
+            <a class="Sort-sortBy"
+               href="{% url 'catalog:catalog' %}?sort_by={{ eng_name }}&change_order=1{% for key, val in params.items %}&{{ key }}={{ val }}{% endfor %}">{{ name }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% endwith %}
+    </div>
+</div>

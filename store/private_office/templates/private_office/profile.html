@@ -1,0 +1,166 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+{% load static %}
+{% load my_tags %}
+
+<head>
+    <title>Private office</title>
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+    <!--if lt IE 8
+  p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+  -->
+    {% include 'includes/head_line.html' %}
+    {% include 'includes/top-menu-and-logo.html' %}
+    {% include 'includes/search-line.html' %}
+
+    <div class="Middle Middle_top">
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+
+
+                <!--        Отображение меню        -->
+                {% private_office_menu menu_item %}
+
+                <div class="Section-content">
+                    <div class="Profile">
+                        <form class="form Profile-form" method="post" enctype="multipart/form-data">
+                            <div class="row">
+
+                                <div class="row-block">
+                                    {% if left_form.non_field_errors %}
+                                        {% for error in left_form.non_field_errors %}
+                                            <div style="color: red;">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    {% for field in left_form %}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <div style="color: red;">{{ error }}</div>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                        {% if forloop.counter == 1 %}
+                                            {% with profile=user.customer.profile %}
+                                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            {% if not profile.avatar %}
+                                            <div class="Profile-avatar Profile-avatar_noimg" style="height: 289px; margin-bottom: 25px;">
+                                                <label class="Profile-fileLabel" for="{{ field.id_for_label }}">
+                                                    <img src="{% static 'assets/img/icons/upload.png' %}" alt="avatar.png" />Загрузить фото
+                                                </label>
+                                                {{ field }}
+                                            </div>
+                                            {% else %}
+                                                <div style="height: 289px; margin-bottom: 25px;">
+                                                    <img style="height: 100%; width: 100%" src="{{ profile.avatar.url }}" alt="avatar.png" />
+                                                </div>
+                                            {% endif %}
+                                            {% endwith %}
+                                        {% else %}
+                                        <div class="form-group">
+                                            <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            {{ field }}
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <div class="row-block">
+                                    {% if right_form.non_field_errors %}
+                                        {% for error in right_form.non_field_errors %}
+                                            <div style="color: red;">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    {% for field in right_form %}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <div style="color: red;">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                        {{ field }}
+                                    </div>
+                                    {% endfor %}
+
+                                    {% with avatar=user.customer.profile.avatar %}
+                                    <div class="form-group">
+                                        <div class="Profile-btn">
+                                            {% csrf_token %}
+                                            <div style="display: flex; justify-content: space-between;">
+                                                {% if avatar %}
+                                                    <input type="hidden" name="delete_avatar">
+                                                    <a class="btn" style="color: red" href="{% url 'private_office:del_avatar' %}">Удалить аватар</a>
+                                                {% endif %}
+                                                <button class="btn btn_success" type="submit">Сохранить</button>
+                                            </div>
+
+                                        </div>
+
+                                        {% for message in messages %}
+                                            {% if message.tags == 'success' %}
+                                            <div class="Profile-success">{{ message }}</div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% for message in messages %}
+                                            {% if message.tags == 'warning' %}
+                                            <div class="Profile-success" style="color:red">{{ message }}</div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.js" type="text/javascript"></script>
+    <script>
+        $("#id_phone").mask("+7(999)999-99-99");
+    </script>
+    {% include 'includes/footer.html' %}
+    <!--+Middle-->
+    <!--    +div.-top-->
+    <!--        +breadcrumbs('Главная','Портфолио')-->
+    <!--    +Article('portfolio')-->
+    <!---->
+    {% include 'includes/bottom_scripts.html' %}
+</body>
+
+</html>

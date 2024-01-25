@@ -1,0 +1,31 @@
+{% load static %}
+
+
+<div class="Cards">
+  {% for elem in products %}
+  <div class="Card">
+      <a class="Card-picture" href="#">
+          {% if elem.title_picture %}
+            <img src="{{ elem.title_picture.url }}" alt="card.jpg"/>
+          {% endif %}
+      </a>
+      <div class="Card-content">
+          <strong class="Card-title">
+              <a href="{% url 'details:product_details' slug=elem.slug %}">
+                  {{ elem.title }}
+              </a>
+          </strong>
+          <div class="Card-description">
+              <div class="Card-cost"><span class="Card-price">${{ elem.avg_price }}</span></div>
+              <div class="Card-category">{{ elem.category.title }}</div>
+              <form class="Card-hover" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="product" value="{{ elem.slug }}">
+                  <input type="hidden" name="product_id" value="{{ elem.pk }}">
+                  <input class="Card-btn" type="image" src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg">
+              </form>
+          </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>

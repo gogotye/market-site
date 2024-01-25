@@ -1,0 +1,141 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+{% load static %}
+{% load my_tags %}
+
+<head>
+    <title>Ваша Корзина</title>
+    <style>
+      .my-button {
+        padding: 0px;
+        width: 56px;
+        height: 56px;
+        position: relative;
+        margin-right: 10px;
+        border: 1px solid transparent;
+        background-color: #ebebeb;
+        cursor: pointer;
+        transition: all 300ms;
+      }
+
+      .my-button:hover {
+        background-color: #d2e7ff;
+        border-color: #0063d1;
+        transition: all 300ms;
+      }
+
+      .my-button .big-span {
+        font-size: 40px;
+        display: block;
+        font-weight: 200;
+      }
+
+      .my-button .small-span {
+        font-size: 28px;
+        display: block;
+        font-weight: 200;
+      }
+
+      .my-b-left {
+        margin: 0px;
+        margin-left: 10px;
+        font-size: 20px;
+      }
+    </style>
+
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+    <!--if lt IE 8
+  p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+       <form class="form Cart" action="#" method="post">
+
+  -->
+    <header class="Header">
+        {% include 'includes/head_line.html' %}
+        {% include 'includes/top-menu-and-logo.html' %}
+        {% include 'includes/search-line.html' %}
+    </header>
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                {% if user.is_authenticated %}
+                    {% auth_user_cart items=basket %}
+                {% else %}
+                    {% not_auth_user_cart items=basket %}
+                {% endif %}
+                {% if basket %}
+                <div class="Cart-total">
+                    <div class="Cart-block Cart-block_total">
+                        <strong class="Cart-title">Итого:</strong>
+                        <span class="Cart-price">{% if not sum %}0.00{% else %}{{ sum }}{% endif %}$</span>
+                    </div>
+                    <div class="Cart-block">
+                        <a class="btn btn_success btn_lg" href="{% url 'order:step_1' %}">Оформить заказ</a>
+                    </div>
+                </div>
+                {% else %}
+                    <div align="center">
+                        Здесь пока ничего нет.
+                    </div>
+                {% endif %}
+                <div id="empty_basket" class="my_modal">
+                    <div class="my_modal-dialog">
+                        <div class="my_modal-content">
+                            <div class="my_modal-header">
+                                <p class="my_modal-title" align="center">Корзина пуста!</p>
+                                <a href="{{ request.path }}" title="Закрыть модальное окно" class="close">×</a>
+                            </div>
+                            <div class="my_modal-body">
+                                <p align="center">
+                                    <a href="{% url 'catalog:catalog' %}">Добавьте</a>
+                                     хотя бы один товар в корзину.
+                                    {% if not user.is_authenticated %}
+                                    <br>Или <a href="{% url 'user_app:login' %}?next={{ request.path }}">войдите</a>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/footer.html' %}
+    <!--+Middle-->
+    <!--    +div.-top-->
+    <!--        +breadcrumbs('Главная','Портфолио')-->
+    <!--    +Article('portfolio')-->
+    <!---->
+    {% include 'includes/bottom_scripts.html' %}
+</body>
+
+</html>

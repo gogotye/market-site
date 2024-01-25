@@ -1,0 +1,55 @@
+{% load static %}
+
+<div class="wrap">
+    <div class="row Header-rowMain">
+        <div class="row-block Header-logo">
+            <a class="logo" href="{% url 'index' %}">
+                <img class="logo-image"
+                     src="{% if configurations.logo_image %}{{ configurations.logo_image.url }}{% else %}{% static 'assets/img/logo.png' %}{% endif %}"
+                     alt="logo.png"/>
+            </a>
+        </div>
+        <nav class="row-block row-block_right Header-menu">
+            <div class="menuModal" id="navigate">
+                <ul class="menu menu_main">
+                    <li class="menu-item">
+                        <a class="menu-link" href="{% url 'index' %}">Главная</a>
+                    </li>
+                    <li class="menu-item">
+                        <span class="menu-label menu-label_success">Скидки</span>
+                        <a class="menu-link" href="{% url 'catalog:catalog' %}">Каталог</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="row-block">
+            <div class="CartBlock">
+                {% if user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <img class="CartBlock-img" src="{% static 'assets/img/icons/loon-icon.svg' %}"
+                             alt="loon-icon.svg"/>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="dropdown-content-a" href="{% url 'private_office:office' %}">Личный кабинет</a>
+                        <a class="dropdown-content-a" href="{% url 'admin:login' %}">Административный раздел</a>
+                        <a class="dropdown-content-a" href="{% url 'user_app:logout' %}">Выход</a>
+                    </div>
+                </div>
+                {% endif %}
+                <a class="CartBlock-block" href="{% url 'cart:cart' %}">
+                    <img class="CartBlock-img" src="{% static 'assets/img/icons/cart.svg' %}" alt="cart.svg"/>
+                    <span class="CartBlock-amount">{% if not quantity_of_goods %}0{% else %}{{ quantity_of_goods }}{% endif %}</span>
+                </a>
+                <div class="CartBlock-block">
+                    <span class="CartBlock-price">{% if not sum %}0.00{% else %}{{ sum }}{% endif %}$</span>
+                </div>
+            </div>
+        </div>
+        <div class="row-block Header-trigger">
+            <a class="menuTrigger" href="#">
+                <div class="menuTrigger-content">Показать навигацию</div>
+            </a>
+        </div>
+    </div>
+</div>

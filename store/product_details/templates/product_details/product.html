@@ -1,0 +1,266 @@
+<!--END-->
+<!--END-->
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie7" lang="ru">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie8" lang="ru">
+<![endif]-->
+<!--[if IE 9]>
+<html class="ie9" lang="ru">
+<![endif]-->
+<!--[if IE 10]>
+<html class="ie10" lang="ru">
+<![endif]-->
+<!--[if IE 11]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!-->
+<html lang="ru">
+<!--<![endif]-->
+
+{% load static %}
+{% load i18n %}
+
+<head>
+    <title>Детали {{ details.title }}</title>
+    {% include 'includes/header.html' %}
+</head>
+
+<body class="Site">
+    <!--if lt IE 8
+  p.error-browser
+      | Ваш браузер&nbsp;
+      em устарел!&nbsp;
+      a(href="http://browsehappy.com/") Выберите новую версию
+          +s
+          | браузера здесь&nbsp;
+      | для правильного отображения сайта.
+  -->
+    <header class="Header">
+        {% include 'includes/head_line.html' %}
+        {% include 'includes/top-menu-and-logo.html' %}
+        {% include 'includes/search-line.html' %}
+    </header>
+    <div class="Middle Middle_top">
+        <div class="Section">
+            <div class="wrap">
+                <div class="Product">
+                    <div class="ProductCard">
+                        <div class="ProductCard-look">
+                            {% if details.title_picture %}
+                                <div class="ProductCard-photo" style="width: 500px; height: 500px;">
+                                    <img src="{{ details.title_picture.url }}" alt="bigGoods.png" />
+                                </div>
+                            {% else %}
+                                <div class="ProductCard-photo" style="width: 500px; height: 500px;">
+                                    <img alt="bigGoods.png" />
+                                </div>
+                            {% endif %}
+                            <div class="ProductCard-picts">
+                                {% for pic in details.pictures.all %}
+                                    <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="{{ pic.image.url }}">
+                                        <img src="{{ pic.image.url }}" alt="bigGoods.png">
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="ProductCard-desc">
+                            <div class="ProductCard-header">
+                                <h2 class="ProductCard-title">{{ details.title }}</h2>
+                                <div class="ProductCard-info">
+                                    <div class="ProductCard-cost">
+                                        <div class="ProductCard-price">$</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if details.description %}
+                            <div class="ProductCard-text">
+                                <ul>
+                                    <li>{{ details.description }}</li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                            <form class="ProductCard-cart" method="post" action="#modal_open">
+                                {% csrf_token %}
+                                <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                                    <div class="Amount Amount_product">
+                                        <button class="Amount-remove" type="button"></button>
+                                        <input class="Amount-input form-input" name="amount" type="text" value="1" />
+                                        <input name="product_id" type="hidden" value="{{ details.pk }}" />
+                                        <button class="Amount-add" type="button"></button>
+                                    </div>
+                                </div>
+                                <div class="ProductCard-cartElement">
+                                    <button class="btn btn_primary" type="submit">
+                                        <img class="btn-icon" src="{% static 'assets/img/icons/card/cart_white.svg' %}"
+                                             alt="cart_white.svg" />
+                                        <span class="btn-content">Купить</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="modal_open" class="my_modal">
+                                <div class="my_modal-dialog">
+                                    <div class="my_modal-content">
+                                        <div class="my_modal-header">
+                                            <p class="my_modal-title">Поздравляем!</p>
+                                            <a href="{{ request.path }}" title="Закрыть модальное окно" class="close">×</a>
+                                        </div>
+                                        <div class="my_modal-body">
+                                            <p>Товар успешно добавлен в корзину!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ProductCard-footer">
+                                <div class="ProductCard-tags">
+                                    <strong class="ProductCard-tagsTitle">Тэги:</strong>
+                                    {% for tag in details.tags.all %}
+                                    {% if forloop.last %}
+                                        <a href="#">{{ tag }}</a>
+                                    {% else %}
+                                        <a href="#">{{ tag }}, </a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Tabs Tabs_default">
+                        <div class="Tabs-links">
+                            <a class="Tabs-link_ACTIVE Tabs-link" href="#description">
+                                <span>Описание</span>
+                            </a>
+                            <a class="Tabs-link" href="#addit">
+                                <span>Характеристика</span>
+                            </a>
+                            <a class="Tabs-link" href="#reviews">
+                                <span>Отзывы ({{ total }})</span>
+                            </a>
+                        </div>
+                        <div class="Tabs-wrap">
+                            <div class="Tabs-block" id="description">
+                                <h2>Megano Store Hystory</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetuer&#32;
+                                    <strong>adipiscing</strong>&#32;elit doli. Aenean commodo ligula eget dolor. Aenean massa.&#32;
+                                    <a href="#">Cumtipsu</a>
+                                    &#32;sociis natoque penatibus et magnis dis parturient montesti, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eutu, pretiumem.
+                                </p>
+                                <img class="pict pict_right" src="{% static 'assets/img/content/home/bigGoods.png' %}" alt="bigGoods.png" />
+                                <ul>
+                                    <li>Lorem ipsum dolor sit amet, consectetuer</li>
+                                    <li>adipiscing elit doli.&#32;<em>Aenean</em>&#32;commodo ligula</li>
+                                    <li>eget dolor. Aenean massa. Cumtipsu sociis</li>
+                                    <li>natoque penatibus et magnis dis parturient</li>
+                                    <li>montesti, nascetur ridiculus mus. Donec</li>
+                                    <li>quam felis, ultricies nec, pellentesque eutu</li>
+                                </ul>
+                                <div class="clearfix"></div>
+                                <div class="table">
+                                    <table>
+                                        <tr>
+                                            <th>Характеристика</th>
+                                            <th>Значение</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Тип устройства</td>
+                                            <td>Ноутбук</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="Tabs-block" id="sellers">
+                                <div class="Categories Categories_product"></div>
+                            </div>
+                            <div class="Tabs-block" id="addit">
+                                <div class="Product-props">
+                                    <div class="Product-prop">
+                                        <strong>Lorem</strong>
+                                        <span> Pfizer</span>
+                                    </div>
+                                    <div class="Product-prop">
+                                        <strong>ipsum</strong>
+                                        <span> Lorem ipsum dolor sit</span>
+                                    </div>
+                                    <div class="Product-prop">
+                                        <strong>dolor sit</strong>
+                                        <span> 5 ans</span>
+                                    </div>
+                                    <div class="Product-prop">
+                                        <strong>psum dolo</strong>
+                                        <span> 2–3 jours</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Tabs-block" id="reviews">
+                                <header class="Section-header">
+                                    <h3 class="Section-title">отзывы {{ total }} </h3>
+                                </header>
+                                <div class="Comments">
+                                    {% for comment in reviews %}
+                                    <div class="Comment" style="margin-top: 5px">
+                                        <div class="Comment-column Comment-column_pict">
+                                            <div class="Comment-avatar"></div>
+                                        </div>
+                                        <div class="Comment-column">
+                                            <header class="Comment-header">
+                                                <div>
+                                                    <strong class="Comment-title">{{ comment.user.username }}</strong>
+                                                    <span class="Comment-date">{{ comment.date|date:'F d/ Y / H:i' }}</span>
+                                                </div>
+                                            </header>
+                                            <div class="Comment-content">
+                                                {{ comment.comment }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <header class="Section-header Section-header_product">
+                                    <h3 class="Section-title">Добавить отзыв</h3>
+                                </header>
+                                {% if user.is_authenticated %}
+                                <div class="Tabs-addComment">
+                                    <form class="form" method="post">
+
+                                        <div class="form-group">
+                                        {% for field in form %}
+                                            {% if fields.errors %}
+                                                {% for error in fields.errors %}
+                                                    <div>{{ error }}</div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {{ field }}
+                                        {% endfor %}
+                                        </div>
+
+                                        {% csrf_token %}
+                                        <input type="hidden" id="text" name="product_ind" value="{{ details.slug }}">
+                                        <div class="form-group" style="margin-top: 25px">
+                                            <button class="btn btn_muted" type="submit">Отправить отзыв</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% else %}
+                                    <a href="{% url 'user_app:login' %}" style="display:flex; justify-content: center; align-items: center; border-bottom: none;">
+                                        <button class="btn btn_primary" type="button">Авторизоваться</button>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'includes/footer.html' %}
+    <!--+Middle-->
+    <!--    +div.-top-->
+    <!--        +breadcrumbs('Главная','Портфолио')-->
+    <!--    +Article('portfolio')-->
+    <!---->
+    {% include 'includes/bottom_scripts.html' %}
+</body>
+
+</html>
