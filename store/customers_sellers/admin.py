@@ -8,12 +8,13 @@ from .models import Profile, Customer, Shop, ShopInfo
 class ProfileInline(admin.StackedInline):
     model = Profile
 
+
 @admin.register(Profile)
 class AdminProfile(admin.ModelAdmin):
     """Модель для интеграции Profile в админ-панель сайта"""
 
-    list_display = ['pk', 'phone', 'email', 'show_avatar', 'show_user']
-    list_display_links = ['pk', 'phone']
+    list_display = ['pk', 'show_avatar', 'show_user']
+    list_display_links = ['pk']
 
     def show_avatar(self, obj: Profile):
         if obj.avatar:
@@ -40,6 +41,7 @@ class AdminProfile(admin.ModelAdmin):
 
         super().save_model(request, obj, form, change)
 
+
 @admin.register(Customer)
 class AdminCustomer(admin.ModelAdmin):
     """Модель для интеграции Customer в админ-панель сайта"""
@@ -51,15 +53,17 @@ class AdminCustomer(admin.ModelAdmin):
 class AdminShopInfoInline(admin.TabularInline):
     model = ShopInfo
 
+
 @admin.register(Shop)
 class AdminShop(admin.ModelAdmin):
     """Модель для интеграции Shop в админ-панель сайта"""
 
     inlines = [AdminShopInfoInline]
-    list_display = ['pk']
+    list_display = ['pk', 'shop_info']
+
 
 @admin.register(ShopInfo)
 class AdminShopInfo(admin.ModelAdmin):
     """Модель для интеграции Shop в админ-панель сайта"""
 
-    list_display = ['pk']
+    list_display = ['pk', 'shop']

@@ -5,8 +5,8 @@
         <div class="row Footer-main">
             <div class="row-block">
                 <a class="logo Footer-logo" href="{% url 'index' %}">
-                    <img class="logo-image" src="{% if configurations.logo_image %}{{ configurations.logo_image.url }}{% else %}{% static 'assets/img/logo_footer.png' %}{% endif %}"
-                         alt="logo_footer.png"/>
+                    <img class="logo-image" src="{% if configurations.logo_image %}{{ configurations.logo_image.url }}
+                    {% else %}{% static 'assets/img/logo_footer.png' %}{% endif %}" alt="logo_footer.png"/>
                 </a>
             </div>
             <div class="row-block">

@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from cart.models import Basket
+from django.contrib.auth import get_user_model
 
 
 class Order(models.Model):
@@ -26,7 +26,7 @@ class Order(models.Model):
     name = models.CharField(max_length=50, verbose_name='Имя')
     family_name = models.CharField(max_length=50, verbose_name='Фамилия')
     surname = models.CharField(max_length=50, verbose_name='Отчество', blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Активный пользователь',
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, verbose_name='Активный пользователь',
                                        related_name='order', blank=True, null=True, help_text='Пользователь, на котором в данный момент закреплён заказ')
     total_price = models.DecimalField(verbose_name='Общая сумма', max_digits=10, decimal_places=2)
     phone = models.CharField(max_length=30, verbose_name='номер телефона')
@@ -40,7 +40,7 @@ class Order(models.Model):
     delivery_price = models.SmallIntegerField(default=0, verbose_name='Сумма на доставку')
     status = models.CharField(verbose_name='Статус заказа', choices=STATUS_CHOICES, max_length=100)
     error_message = models.CharField(verbose_name='Описание ошибки оплаты', max_length=250, blank=True)
-    history_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Архивный пользователь',
+    history_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='Архивный пользователь',
                                      blank=True, null=True, related_name='history_order')
     payment_date = models.DateTimeField(blank=True, verbose_name='Дата оплаты заказа')
     basket_objects = models.ManyToManyField(blank=True, verbose_name='Корзина заказа', related_name='order', to=Basket)

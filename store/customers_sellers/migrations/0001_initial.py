@@ -22,8 +22,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(default='Имя не указано', help_text='Необязательно', max_length=50, verbose_name='Имя')),
                 ('family_name', models.CharField(default='Фамилия не указана', help_text='Необязательно', max_length=50, verbose_name='Фамилия')),
                 ('surname', models.CharField(default='Отчество не указано', help_text='Необязательно', max_length=50, verbose_name='Отчество')),
-                ('phone', models.CharField(max_length=30, unique=True, verbose_name='номер телефона')),
-                ('email', models.EmailField(max_length=254, unique=True, verbose_name='email пользователя')),
                 ('avatar', models.ImageField(blank=True, help_text='Необязательно.', upload_to=my_store_app.utils.GetUploadPath.get_upload_path_for_user_avatar, validators=[my_store_app.utils.validate_image])),
             ],
             options={

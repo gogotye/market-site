@@ -59,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'user_app.middleware.CheckPathMiddleware',
 ]
 
 ROOT_URLCONF = 'store.urls'
@@ -151,3 +153,5 @@ CART_ID = 'cart'
 FREE_DELIVERY_BORDER = 2000
 COMMON_DELIVERY_PRICE = 200
 EXPRESS_DELIVERY_PRICE = 500
+
+AUTH_USER_MODEL = 'user_app.User'
