@@ -47,10 +47,10 @@ class ShopInfo(models.Model):
     shop = models.OneToOneField('Shop', on_delete=models.CASCADE, verbose_name='Магазин', related_name='shop_info')
     shop_name = models.CharField(max_length=250, verbose_name='Название магазина')
     address = models.CharField(max_length=250, unique=True, verbose_name='Адрес магазина')
-    owner_name = models.CharField(default='Имя владельца не указано', max_length=50, verbose_name='Имя', help_text='Необязательно')
-    owner_family_name = models.CharField(default='Фамилия владельца не указана', max_length=50, verbose_name='Фамилия',
+    owner_name = models.CharField(default='Имя владельца не указано', max_length=50, verbose_name='Имя владельца', help_text='Необязательно')
+    owner_family_name = models.CharField(default='Фамилия владельца не указана', max_length=50, verbose_name='Фамилия владельца',
                                    help_text='Необязательно')
-    owner_surname = models.CharField(default='Отчество владельца не указано', max_length=50, verbose_name='Отчество',
+    owner_surname = models.CharField(default='Отчество владельца не указано', max_length=50, verbose_name='Отчество владельца',
                                help_text='Необязательно')
 
     class Meta:

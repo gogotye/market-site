@@ -156,7 +156,8 @@ class SecondRegisterSellerView(View):
                 username=d['username'],
                 password=d['password'],
                 email=d['email'],
-                phone=d['phone']
+                phone=d['phone'],
+                is_store=True,
             )
 
             # привязка магазина к владельцу

@@ -8,4 +8,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display_links = ['pk', 'user', 'history_user']
 
 
-admin.site.register(User, UserAdmin)
+@admin.register(User)
+class MyUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + ((None, {'fields': ['phone', 'is_store']}), )
+    add_fieldsets = UserAdmin.add_fieldsets + ((None, {'fields': ['phone', 'is_store', 'email']}), )

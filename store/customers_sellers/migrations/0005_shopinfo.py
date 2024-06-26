@@ -18,9 +18,9 @@ class Migration(migrations.Migration):
                 ('shop', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='shop_info', to='customers_sellers.shop', verbose_name='Магазин')),
                 ('shop_name', models.CharField(max_length=250, verbose_name='Название магазина')),
                 ('address', models.CharField(max_length=250, unique=True, verbose_name='Адрес магазина')),
-                ('owner_name', models.CharField(default='Имя владельца не указано', help_text='Необязательно', max_length=50, verbose_name='Имя')),
-                ('owner_family_name', models.CharField(default='Фамилия владельца не указана', help_text='Необязательно', max_length=50, verbose_name='Фамилия')),
-                ('owner_surname', models.CharField(default='Отчество владельца не указано', help_text='Необязательно', max_length=50, verbose_name='Отчество')),
+                ('owner_name', models.CharField(default='Имя владельца не указано', help_text='Необязательно', max_length=50, verbose_name='Имя владельца')),
+                ('owner_family_name', models.CharField(default='Фамилия владельца не указана', help_text='Необязательно', max_length=50, verbose_name='Фамилия владельца')),
+                ('owner_surname', models.CharField(default='Отчество владельца не указано', help_text='Необязательно', max_length=50, verbose_name='Отчество владельца')),
             ],
         ),
     ]
